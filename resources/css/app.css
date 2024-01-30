@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .input-field-float {
+        @apply block px-2.5 pb-2.5 pt-4 w-full rounded-lg text-sm text-gray-900 bg-transparent border border-gray-500 appearance-none  focus:outline-none focus:ring-0;
+    }
+
+    .label-float {
+        @apply absolute text-sm text-gray-500 duration-200 transform -translate-y-1/2 origin-[0] left-3 cursor-text z-10 bg-white backdrop-blur-3xl px-2;
+    }
+
+    .card {
+        @apply block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md;
+    }
+    .sidebar {
+        @apply overflow-y-auto py-4 px-4 flex flex-col justify-start h-screen  rounded;
+    }
+    .icon-sidebar {
+        @apply flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white;
+    }
+    .button-submit {
+        @apply opacity-50 max-w-full w-full mx-auto py-2 px-5 mt-7 rounded-lg text-white transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-300 hover:opacity-100 hover:text-white;
+    }
+
+    /* Hamburger Menu */
+
+    .hamburger-line {
+        @apply w-[30px] h-[2px] my-2 block bg-customBlue;
+    }
+
+    .hamburger-active > span:nth-child(1) {
+        @apply rotate-45;
+    }
+
+    .hamburger-active > span:nth-child(2) {
+        @apply scale-0;
+    }
+
+    .hamburger-active > span:nth-child(3) {
+        @apply -rotate-45;
+    }
+}
