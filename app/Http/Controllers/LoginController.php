@@ -38,8 +38,13 @@ class LoginController extends Controller
 
             $user = User::create($data);
 
-            event(new Registered($user));
-            Auth::login($user);
+            /**
+             * email verifikasi masih ngebug
+             */
+
+            // event(new Registered($user));
+           
+            Auth::login($user); 
             return redirect('/dashboard');
         } catch (\Exception $e) {
             $errorMessage = "An error occurred: {$e->getMessage()}";
@@ -59,9 +64,8 @@ class LoginController extends Controller
 
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
-                $request->session()->put('email', $request->input('email'));
-                $request->session()->put('password', $request->input('password'));
-                return redirect()->intended('/dashboard');
+
+                return redirect()->intended('dashboard');
             }
             return response()->json([
                 'error' => 'Invalid credentials'

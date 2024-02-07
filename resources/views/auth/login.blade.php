@@ -71,8 +71,8 @@
                     } else {
                         Toast.fire({
                             icon: 'success',
-                            title: 'Register!',
-                            text: 'Your record has been registered.',
+                            title: 'login!',
+                            text: 'Login Successfully!!.',
                         });
 
                         setTimeout(function() {

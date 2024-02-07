@@ -8,7 +8,7 @@
     </h2>
 </x-header>
 
-<form action="{{ route('user.update', $user) }}" method="post" class="bg-white p-6 mt-10 rounded-md shadow-md edit-form">
+<form action="{{ route('user.update', ['user' => $user->id_user]) }}" method="post" class="bg-white p-6 mt-10 rounded-md shadow-md edit-form">
     @csrf
     @method('PUT')
     <div class="mb-4">
@@ -31,7 +31,7 @@
     </div>
 
     <div class="flex items-center justify-end mt-6">
-        <button type="button" class="bg-blue-500 save-btn hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
+        <button type="submit" class="bg-blue-500 save-btn hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
             Simpan
         </button>
     </div>
@@ -40,7 +40,8 @@
 @push('custom-script')
 <script>
     $(document).ready(function() {
-        $('.save-btn').click(function() {
+        $('.save-btn').click(function(e) {
+            e.preventDefault();
             const form = $(this).closest('.edit-form');
             Swal.fire({
                 icon: 'warning',

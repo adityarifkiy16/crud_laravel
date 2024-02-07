@@ -17,12 +17,6 @@ class UserController extends Controller
     public function index()
     {
         $user = User::paginate(3);
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
-        confirmDelete($title, $text, [
-            'cancelButtonText' => 'no sukma',
-        ]);
-
         return view('user.index', ['user' => $user]);
     }
 
@@ -40,7 +34,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => ['required', 'email:dns', 'unique:users,email'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => 'required',
             'role' => ['required', 'string', 'max:255', 'in:peserta,admin'],
         ]);
@@ -48,7 +42,6 @@ class UserController extends Controller
         $data = $request->all();
         $data['password'] = Hash::make($data['password']);
         User::create($data);
-        return redirect('/user');
     }
 
     /**
@@ -75,7 +68,7 @@ class UserController extends Controller
         try {
             $request->validate([
                 'password' => 'required',
-                'role' => ['required', 'string', 'max:255', 'in:peserta,admin'],
+                'role' => ['string', 'max:255', 'in:user,admin'],
             ]);
             $data = $request->all();
             $data['password'] = Hash::make($data['password']);
@@ -95,12 +88,9 @@ class UserController extends Controller
         $peserta = Peserta::has('user')->where('id_user', '=', $id)->first();
 
         if ($peserta) {
-            alert()->warning('WarningAlert', 'Lorem ipsum dolor sit amet.');
-            return back();
+            return response()->json(['error' => 'foreign key'], 422);
         }
         $user = User::where('id_user', $id);
         $user->delete();
-        alert()->success('WarningAlert', 'Lorem ipsum dolor sit amet.');
-        return redirect('/user');
     }
 }
