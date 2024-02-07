@@ -75,7 +75,7 @@
                         });
 
                         setTimeout(function() {
-                            window.location.reload();
+                            window.location.href= '/dashboard';
                         }, 3000);
                     }
                 }

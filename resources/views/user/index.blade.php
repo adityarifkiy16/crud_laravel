@@ -14,25 +14,17 @@
 
 <div class="overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-500 rounded-lg bg-blue-500">
-        <thead class="text-xs text-center text-white uppercase ">
+        <thead class="text-xs text-center text-white uppercase">
             <tr>
-                <th scope="col" class="py-3 px-6">
-                    ID
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Email
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Role
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Action
-                </th>
+                <th scope="col" class="py-3 px-6">ID</th>
+                <th scope="col" class="py-3 px-6">Email</th>
+                <th scope="col" class="py-3 px-6">Role</th>
+                <th scope="col" class="py-3 px-6">Action</th>
             </tr>
         </thead>
         <tbody class="text-center bg-white">
             @forelse($user as $item)
-            <tr class="border-b hover:bg-gray-50 ">
+            <tr class="border-b hover:bg-gray-50">
                 <td class="py-4 px-6">{{ $item->id_user }}</td>
                 <td class="py-4 px-6">{{ $item->email }}</td>
                 <td class="py-4 px-6">{{ $item->role }}</td>
@@ -41,10 +33,14 @@
                         <img src="{{ asset('img/icon/edit.svg') }}" alt="icon-add" class="w-5 h-5 mr-2">
                         Edit
                     </a>
-                    <a href="{{ route('user.destroy', $item->id_user) }}" data-confirm-delete='true' class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex flex-row delete-btn">
-                        <img src="{{ asset('img/icon/delete.svg') }}" alt="icon-add" class="w-5 h-5 mr-2">
-                        Delete
-                    </a>
+                    <form action="{{ route('user.destroy', $item) }}" class='delete-form' method="POST" data-jenis-id="{{ $item->id_user }}" >
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex flex-row delete-btn" data-user-id="{{ $item->id_user }}">
+                            <img src="{{ asset('img/icon/delete.svg') }}" alt="icon-add" class="w-5 h-5 mr-2">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
             <tr>
@@ -65,9 +61,11 @@
 @push('custom-script')
 <script>
     $(document).ready(function() {
-        $('.delete-btn').click(function() {
+        $('.delete-btn').click(function(e) {
+            e.preventDefault();
             const form = $(this).closest('.delete-form');
-            const userId = form.data('user-id');
+            const jenisId = form.data('jenis-id');
+
             Swal.fire({
                 icon: 'warning',
                 text: 'Do you want to delete this?',
@@ -82,7 +80,7 @@
                         data: {
                             _token: form.find('input[name="_token"]').val(),
                             _method: form.find('input[name="_method"]').val(),
-                            user: userId,
+                            jenis: jenisId,
                         },
                         success: function(response) {
                             const Toast = Swal.mixin({
@@ -104,7 +102,7 @@
                             }, 3000);
                         },
                         error: function(xhr) {
-                            let errorMessage = xhr.responseJSON.error || 'An error occurred';
+                            let errorMessage = xhr.responseJSON.error;
 
                             if (errorMessage.includes('foreign key')) {
                                 errorMessage = 'Cannot delete. Related records exist.';
@@ -117,8 +115,9 @@
                         }
                     });
                 }
+
             });
         });
-    });
+    })
 </script>
 @endpush

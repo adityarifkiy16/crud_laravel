@@ -44,18 +44,25 @@ Route::middleware(['auth'])->group(function () {
     /*--------------------------------route user----------------------------------------- */
     Route::resource('user', UserController::class);
 
-    /*----------------------------route email verification------------------------------- */
-    Route::prefix('/email')->group(function () {
 
-        Route::get('/verify', function () {
-            return view('auth.verify-email');
-        })->name('verification.notice');
+    /**
 
-        Route::get('/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-            $request->fulfill();
-            return redirect('/dashboard');
-        })->middleware(['signed'])->name('verification.verify');
-    });
+    * saya comment karena ngebug :V
+
+    */
+    
+    // /*----------------------------route email verification------------------------------- */
+    // Route::prefix('/email')->group(function () {
+        
+    //     Route::get('/verify', function () {
+    //         return view('auth.verify-email');
+    //     })->name('verification.notice');
+
+    //     Route::get('/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    //         $request->fulfill();
+    //         return redirect('/dashboard');
+    //     })->middleware(['signed'])->name('verification.verify');
+    // });
 });
 
 // Login route
@@ -68,4 +75,4 @@ Route::prefix('login')->group(function () {
 
 
 // Dashboard Route
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['verified']);
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
